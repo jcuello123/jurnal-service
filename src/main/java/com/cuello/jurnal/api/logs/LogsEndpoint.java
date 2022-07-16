@@ -20,6 +20,7 @@ public class LogsEndpoint {
         this.userRepository = userRepository;
         this.diaryRepository = diaryRepository;
     }
+
     @GetMapping
     public ResponseEntity index() {
         return new ResponseEntity(userRepository.findAll(), HttpStatus.OK);
