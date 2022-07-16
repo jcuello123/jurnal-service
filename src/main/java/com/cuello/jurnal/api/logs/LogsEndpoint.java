@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LogsEndpoint {
     @GetMapping
     public ResponseEntity index() {
-        return new ResponseEntity("hi", HttpStatus.OK);
+        return new ResponseEntity("hello", HttpStatus.OK);
     }
 }
