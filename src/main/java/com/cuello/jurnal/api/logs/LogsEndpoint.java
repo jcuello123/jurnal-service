@@ -12,14 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class LogsEndpoint {
-    @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+    private DiaryRepository diaryRepository;
 
     @Autowired
-    DiaryRepository diaryRepository;
-
+    public LogsEndpoint(UserRepository userRepository, DiaryRepository diaryRepository) {
+        this.userRepository = userRepository;
+        this.diaryRepository = diaryRepository;
+    }
     @GetMapping
     public ResponseEntity index() {
-        return new ResponseEntity(diaryRepository.getDiaries("yo"), HttpStatus.OK);
+        return new ResponseEntity(userRepository.findAll(), HttpStatus.OK);
     }
 }
