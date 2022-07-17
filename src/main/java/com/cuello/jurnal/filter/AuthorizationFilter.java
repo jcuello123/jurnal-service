@@ -1,5 +1,6 @@
 package com.cuello.jurnal.filter;
 
+import com.cuello.jurnal.api.token.TokenState;
 import com.cuello.jurnal.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,11 +25,13 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             throws IOException, ServletException {
         String token = req.getHeader("token");
         String username = req.getHeader("username");
-        if (tokenService.isValid(token, username)) {
+        TokenState tokenState = tokenService.getTokenState(token, username);
+
+        if (tokenState.isValid() && !tokenState.isExpired()) {
             chain.doFilter(req, res);
         }
         else {
-            res.sendError(401, "Unauthorized");
+            res.sendError(401, tokenState.getError());
         }
     }
 }
