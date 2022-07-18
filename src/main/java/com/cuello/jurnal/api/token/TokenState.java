@@ -2,12 +2,11 @@ package com.cuello.jurnal.api.token;
 
 public class TokenState {
     private boolean isValid;
-    private String error;
     private boolean isExpired;
 
-    public TokenState(boolean isValid, String error) {
+    public TokenState(boolean isValid, boolean isExpired) {
         this.isValid = isValid;
-        this.error = error;
+        this.isExpired = isExpired;
     }
 
     public boolean isValid() {
@@ -16,10 +15,6 @@ public class TokenState {
 
     public void setIsValid(boolean isValid) {
         this.isValid = isValid;
-    }
-
-    public String getError() {
-        return this.error;
     }
 
     public void setIsExpired(boolean isExpired) {

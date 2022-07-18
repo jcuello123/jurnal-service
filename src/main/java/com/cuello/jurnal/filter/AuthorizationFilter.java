@@ -21,8 +21,14 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected  void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, ServletException {
+
+        if (req.getMethod().equals("OPTIONS")) {
+            chain.doFilter(req, res);
+            return;
+        }
+
         String token = req.getHeader("token");
         String username = req.getHeader("username");
         TokenState tokenState = tokenService.getTokenState(token, username);
@@ -31,7 +37,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             chain.doFilter(req, res);
         }
         else {
-            res.sendError(401, tokenState.getError());
+            res.sendError(401);
         }
     }
 }

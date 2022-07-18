@@ -38,12 +38,8 @@ public class TokenService {
     }
 
     public TokenState getTokenState(String token, String userMakingRequest) {
-        if (token == null || token.equals("")) {
-            return new TokenState(false, "Token is null or empty.");
-        }
-
-        if (userMakingRequest == null || userMakingRequest.equals("")) {
-            return new TokenState(false, "Username is null or empty.");
+        if (token == null || token.equals("") || userMakingRequest == null || userMakingRequest.equals("")) {
+            return new TokenState(false, false);
         }
 
         userMakingRequest = userMakingRequest.toLowerCase();
@@ -56,12 +52,12 @@ public class TokenService {
 
             String userFromToken = jwt.getSubject().toLowerCase();
             if (!userMakingRequest.equals(userFromToken)) {
-                return new TokenState(false, "Username does not match.");
+                return new TokenState(false, false);
             }
 
-            return new TokenState(true,  null);
+            return new TokenState(true, false);
         } catch (JWTVerificationException e) {
-            TokenState tokenState = new TokenState(false, e.getMessage());
+            TokenState tokenState = new TokenState(false, false);
 
             if (e.getMessage().toLowerCase().contains("expired")) {
                 tokenState.setIsExpired(true);
